@@ -10,6 +10,11 @@ gulp.task("connect", function () {
     });
 });
 
+function handleError(error){
+    console.log(error);
+    this.emit('end');
+}
+
 gulp.task('html', function() {
     return gulp.src("app/*.html")
         .pipe(connect.reload());
@@ -18,6 +23,7 @@ gulp.task('html', function() {
 gulp.task("jsx", function() {
     return gulp.src('scripts/*.jsx')
         .pipe(react())
+        .on('error', handleError)
         .pipe(gulp.dest('.tmp/scripts'))
         .pipe(connect.reload());
 });
@@ -25,6 +31,7 @@ gulp.task("jsx", function() {
 gulp.task('sass', function() {
     return gulp.src("sass/*.scss")
         .pipe(sass())
+        .on('error', handleError)
         .pipe(gulp.dest('.tmp/styles'))
         .pipe(connect.reload());
 });
